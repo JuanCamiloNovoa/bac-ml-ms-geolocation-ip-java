@@ -1,0 +1,8 @@
+spring:
+  thymeleaf:
+    mode: HTML
+    cache: false
+    webflux:
+      base-path: /
+  application:
+  name: geolocation-ip
