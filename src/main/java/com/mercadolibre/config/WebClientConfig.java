@@ -7,7 +7,6 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,7 @@ import javax.net.ssl.SSLException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-@Log4j2
+
 @Configuration
 @RequiredArgsConstructor
 public class WebClientConfig {

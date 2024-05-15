@@ -1,3 +1,14 @@
+#Service Identification
+name:
+  component: bac-ml-ms-geolocation-ip-java
+id:
+  service: bac-ml-ms-geolocation-ip-java
+
+#Params of Execution
+server:
+  servlet:
+  context-path: /mercadolibre/geolocalization/ip
+  port: ${PORT:8080}
 spring:
   thymeleaf:
     mode: HTML
@@ -5,4 +16,19 @@ spring:
     webflux:
       base-path: /
   application:
-  name: geolocation-ip
+  name: bac-ml-ms-geolocation-ip-java
+
+#External API
+services:
+  consult-country:
+    host: https://restcountries.com
+    url: /v3.1/name/
+  consult-ip:
+    host: http://ip-api.com
+    url: /json/
+  consult-currency:
+    host: https://v6.exchangerate-api.com
+    api-key: 580b532bd065fbbc41f98e13
+    url: /v6/{api-key}/latest/
+  cache:
+    time: 10
