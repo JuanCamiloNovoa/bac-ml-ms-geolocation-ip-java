@@ -15,6 +15,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class ResponseCurrencyInformationDto implements Serializable {
     @JsonProperty("conversion_rates")
-    private Map<String, String> conversionRates;
+    private Map<String, Double> conversionRates;
 
 }

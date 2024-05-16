@@ -3,6 +3,9 @@ package com.mercadolibre.domain.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Getter
 @Setter
 @Builder
@@ -14,8 +17,8 @@ public class GeoLocationDataResponse {
     private String fechaActual;
     private String pais;
     private String isoCode;
-    private String idiomas;
-    private String moenda;
-    private String hora;
+    private Map<String,String> idiomas;
+    private CurrencyServiceResponse moneda;
+    private List<TimeServiceResponse> hora;
     private String distanciaEstimada;
 }

@@ -6,10 +6,10 @@ id:
 
 #Params of Execution
 server:
-  servlet:
-  context-path: /mercadolibre/geolocalization/ip
-  port: ${PORT:8080}
+  port: ${PORT:8090}
 spring:
+  webflux:
+    base-path: /mercadolibre/geolocation/ip
   thymeleaf:
     mode: HTML
     cache: false
@@ -32,3 +32,4 @@ services:
     url: /v6/{api-key}/latest/
   cache:
     time: 10
+  timeout: 5000

@@ -12,6 +12,6 @@ public class StatusResponse {
     @Schema(description = "HTTP response code", example = "200")
     private String statusCode;
 
-    @Schema(description = "Description of response code", example = "Request processed correctly")
+    @Schema(description = "Description of response code", example = "Solicitud procesada correctamente")
     private String statusDescription;
 }
