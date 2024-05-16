@@ -15,6 +15,8 @@ public class Constants {
     // Geolocation
     public static final double LATITUDE_BUENOS_AIRES = -34;
     public static final double LONGITUDE_BUENOS_AIRES = -64;
+    public static final double EARTH_RADIUS = 6371.0;
+
 
     // Currency Configuration
     public static final String CURRENCY_CONVERSION_RATE = "USD";
@@ -26,7 +28,7 @@ public class Constants {
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 
-    // TIME PARAMS
+    // Time Params
     public static final String TIMEZONE = "America/Bogota";
     public static final String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
@@ -38,7 +40,15 @@ public class Constants {
     public static final String ERROR_API_CONSULT_CURRENCY = "An error occurred when calling the currency consult service.";
     public static final String ERROR_GETTING_INFORMATION = "Error consuming service: [%s], reason: [%s]";
     public static final String SUCCESS_RESPONSE = "Solicitud procesada correctamente";
-    public static final String DISTANCE_INFORMATION = "[%s] kms ([%s],[%s]) a ([%s],[%s])";
+    public static final String DISTANCE_INFORMATION = "%d kms (%.1f,%.1f) a (%.1f,%.1f)";
+    public static final String EMPTY_CURRENCY_INFORMATION = "Información no disponible";
+    public static final String COUNTRY_INFORMATION = "%s (%s)";
+
+    // Language files
+    public static final String LANGUAGE_CODES_FILE= "language-codes.properties";
+    public static final String LANGUAGE_NAMES_FILE= "language-names.properties";
+    public static final String FILE_NOT_FOUND = "Could not find file: %s";
+    public static final String LOAD_MAP_FAILED = "Failed to load mappings from file:  %s";
 
 
 }

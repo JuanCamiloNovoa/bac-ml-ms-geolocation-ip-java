@@ -29,7 +29,13 @@ services:
   consult-currency:
     host: https://v6.exchangerate-api.com
     api-key: 580b532bd065fbbc41f98e13
-    url: /v6/{api-key}/latest/
+    url: /v6/${services.consult-currency.api-key}/latest/
   cache:
     time: 10
   timeout: 5000
+
+logging:
+  level:
+    org:
+      springframework:
+        cache: TRACE

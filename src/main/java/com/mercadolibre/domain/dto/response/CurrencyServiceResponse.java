@@ -9,5 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class CurrencyServiceResponse {
     private String codigo;
-    private double cotizacionDolar;
+    private String cotizacionDolar;
 }

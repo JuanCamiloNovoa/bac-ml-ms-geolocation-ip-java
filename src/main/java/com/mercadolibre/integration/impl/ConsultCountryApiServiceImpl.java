@@ -32,7 +32,15 @@ public class ConsultCountryApiServiceImpl implements ConsultCountryApiService {
                 .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals,
                         clientResponse -> Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,
                                 ERROR_API_CONSULT_COUNTRY)))
-                .bodyToMono(ResponseCountryInformationDto.class)
+                .bodyToFlux(ResponseCountryInformationDto.class)
+                .collectList()
+                .flatMap(list -> {
+                    if (list.isEmpty()) {
+                        return Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,
+                                String.format(ERROR_GETTING_INFORMATION, NAME_CONSULT_COUNTRY_API, "No country information found")));
+                    }
+                    return Mono.just(list.getFirst());
+                })
                 .timeout(Duration.ofMillis(configVariable.getTimeoutConfig()))
                 .onErrorResume(Exception.class, exception -> Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,
                         String.format(ERROR_GETTING_INFORMATION, NAME_CONSULT_COUNTRY_API, exception.getClass().getSimpleName()))));

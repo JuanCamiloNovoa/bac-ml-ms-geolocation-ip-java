@@ -1,5 +1,7 @@
 package com.mercadolibre.domain.service;
 
+import com.mercadolibre.domain.DataResponseBuildService;
+import com.mercadolibre.domain.FinancialService;
 import com.mercadolibre.domain.GeoLocationIpService;
 import com.mercadolibre.domain.dto.response.DataServiceResponse;
 import com.mercadolibre.domain.dto.response.TimeServiceResponse;
@@ -27,37 +29,42 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
     private final ConsultIpApiService consultIpApiService;
     private final ConsultCountryApiService consultCountryApiService;
     private final ConsultCurrencyApiService consultCurrencyApiService;
+    private final DataResponseBuildService dataResponseBuildService;
+    private final FinancialService financialService;
 
     @Override
     public Mono<ResponseEntity<DataServiceResponse>> getInformation(String ip) {
         return consultIpApiService.getIpInformation(ip)
-                .flatMap(ipInfo -> {
-                    String countryCode = ipInfo.getCountryCode();
-                    return consultCountryApiService.getCountryInformation(countryCode)
-                            .flatMap(countryInfo -> {
-                                String currencyCode = ApiUtils.getCountryCurrency(countryInfo.getCurrencies());
-                                return consultCurrencyApiService.getCurrencyInformation(currencyCode)
-                                        .flatMap(currencyInfo -> {
-                                            List<String> timezones = countryInfo.getTimezones();
-                                            List<Double> countryDistances = countryInfo.getLatlng();
-                                            double distance = ApiUtils.getDistanceToBuenosAires(countryDistances);
-                                            return ApiUtils.getCurrentTimeForTimezones(timezones)
-                                                    .collectList()
-                                                    .flatMap(times -> buildResponse(ip, ipInfo, countryInfo, currencyInfo, times, distance));
-                                        });
-                            });
-                });
+                .flatMap(ipInfo -> getCountryInformation(ipInfo)
+                        .flatMap(countryInfo -> getCurrencyInformation(countryInfo)
+                                .flatMap(currencyInfo -> getTimeInformation(countryInfo)
+                                        .flatMap(times -> buildResponse(ip, ipInfo, countryInfo, currencyInfo, times)))));
+    }
+
+    private Mono<ResponseCountryInformationDto> getCountryInformation(ResponseIpInformationDto ipInfo) {
+        String countryName = ipInfo.getCountry();
+        return consultCountryApiService.getCountryInformation(countryName);
+    }
+
+    private Mono<ResponseCurrencyInformationDto> getCurrencyInformation(ResponseCountryInformationDto countryInfo) {
+        String currencyCode = financialService.getCountryCurrency(countryInfo.getCurrencies());
+        return consultCurrencyApiService.getCurrencyInformation(currencyCode);
+    }
+
+    private Mono<List<TimeServiceResponse>> getTimeInformation(ResponseCountryInformationDto countryInfo) {
+        List<String> timezones = countryInfo.getTimezones();
+        return ApiUtils.getCurrentTimeForTimezones(timezones).collectList();
     }
 
     private Mono<ResponseEntity<DataServiceResponse>> buildResponse(String ip,
                                                                     ResponseIpInformationDto ipInfo,
                                                                     ResponseCountryInformationDto countryInfo,
                                                                     ResponseCurrencyInformationDto currencyInfo,
-                                                                    List<TimeServiceResponse> times,
-                                                                    double distance) {
+                                                                    List<TimeServiceResponse> times) {
+        long distance = ApiUtils.getDistanceToBuenosAires(countryInfo.getLatlng());
         return Mono.just(ResponseEntity.ok(DataServiceResponse.builder()
                 .status(DataResponseMapper.buildSuccessfulStatusResponse())
-                .data(DataResponseMapper.buildGeoLocationResponse(ip, ipInfo, countryInfo, currencyInfo, times, distance))
+                .data(dataResponseBuildService.buildGeoLocationResponse(ip, ipInfo, countryInfo, currencyInfo, times, distance))
                 .build()));
     }
 
