@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataServiceResponse {
-    @Schema(description = "General service response", example = "{\"statusCode\": \"200\", \"statusDescription\":\"Solicitud procesada correctamente\"}")
+    @Schema(description = "Respues general del servicio", example = "{\"statusCode\": \"200\", \"statusDescription\":\"Solicitud procesada correctamente\"}")
     private StatusResponse status;
     private GeoLocationDataResponse data;
 }

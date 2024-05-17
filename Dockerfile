@@ -1,7 +1,6 @@
 FROM eclipse-temurin:21-jdk
-RUN JAVA_HOME=/opt/java/openjdk
-
-EXPOSE 8080
-
-COPY /target/bac-ml-ms-geolocation-ip-java-1.0-SNAPSHOT.jar /opt/java
-CMD ["java","-jar","/opt/java/ac-ml-ms-geolocation-ip-java-1.0-SNAPSHOT.jar"]
+ENV JAVA_HOME=/opt/java/openjdk
+WORKDIR /opt/java
+EXPOSE 8090
+COPY target/bac-ml-ms-geolocation-ip-java-1.0-SNAPSHOT.jar /opt/java/app.jar
+CMD ["java", "-jar", "app.jar"]

@@ -5,8 +5,7 @@ import com.mercadolibre.domain.dto.response.StatusResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import static com.mercadolibre.util.constants.Constants.SUCCESS_CODE;
-import static com.mercadolibre.util.constants.Constants.SUCCESS_RESPONSE;
+import static com.mercadolibre.util.constants.Constants.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DataResponseMapper {
@@ -27,5 +26,12 @@ public class DataResponseMapper {
                         .statusDescription(description)
                         .build())
                 .build();
+    }
+
+    public static StatusResponse buildStatusResponseEmpty(){
+        return StatusResponse.builder()
+                        .statusCode(NOT_FOUND_CODE)
+                        .statusDescription(NOT_FOUND_DESCRIPTION)
+                        .build();
     }
 }

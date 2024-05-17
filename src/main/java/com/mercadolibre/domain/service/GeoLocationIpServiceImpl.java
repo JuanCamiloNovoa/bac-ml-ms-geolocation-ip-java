@@ -1,8 +1,6 @@
 package com.mercadolibre.domain.service;
 
-import com.mercadolibre.domain.DataResponseBuildService;
-import com.mercadolibre.domain.FinancialService;
-import com.mercadolibre.domain.GeoLocationIpService;
+import com.mercadolibre.domain.*;
 import com.mercadolibre.domain.dto.response.DataServiceResponse;
 import com.mercadolibre.domain.dto.response.TimeServiceResponse;
 import com.mercadolibre.integration.ConsultCountryApiService;
@@ -31,14 +29,19 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
     private final ConsultCurrencyApiService consultCurrencyApiService;
     private final DataResponseBuildService dataResponseBuildService;
     private final FinancialService financialService;
-
+    private final StatisticsService statisticsService;
+    private final TranslationService translationService;
     @Override
     public Mono<ResponseEntity<DataServiceResponse>> getInformation(String ip) {
         return consultIpApiService.getIpInformation(ip)
                 .flatMap(ipInfo -> getCountryInformation(ipInfo)
-                        .flatMap(countryInfo -> getCurrencyInformation(countryInfo)
-                                .flatMap(currencyInfo -> getTimeInformation(countryInfo)
-                                        .flatMap(times -> buildResponse(ip, ipInfo, countryInfo, currencyInfo, times)))));
+                        .flatMap(countryInfo -> {
+                            long distance = ApiUtils.getDistanceToBuenosAires(countryInfo.getLatlng());
+                            return getCurrencyInformation(countryInfo)
+                                    .flatMap(currencyInfo -> getTimeInformation(countryInfo)
+                                            .flatMap(times -> buildResponse(ip, ipInfo, countryInfo, currencyInfo, times, distance)
+                                                    .flatMap(response -> updateStatisticsAndReturnResponse(ipInfo, distance, response))));
+                        }));
     }
 
     private Mono<ResponseCountryInformationDto> getCountryInformation(ResponseIpInformationDto ipInfo) {
@@ -60,12 +63,19 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
                                                                     ResponseIpInformationDto ipInfo,
                                                                     ResponseCountryInformationDto countryInfo,
                                                                     ResponseCurrencyInformationDto currencyInfo,
-                                                                    List<TimeServiceResponse> times) {
-        long distance = ApiUtils.getDistanceToBuenosAires(countryInfo.getLatlng());
+                                                                    List<TimeServiceResponse> times,
+                                                                    long distance) {
         return Mono.just(ResponseEntity.ok(DataServiceResponse.builder()
                 .status(DataResponseMapper.buildSuccessfulStatusResponse())
                 .data(dataResponseBuildService.buildGeoLocationResponse(ip, ipInfo, countryInfo, currencyInfo, times, distance))
                 .build()));
+    }
+
+    private Mono<ResponseEntity<DataServiceResponse>> updateStatisticsAndReturnResponse(ResponseIpInformationDto ipInfo,
+                                                                                        long distance,
+                                                                                        ResponseEntity<DataServiceResponse> response) {
+        return statisticsService.updateStatistics(translationService.translateCountry(ipInfo.getCountry()), distance)
+                .thenReturn(response);
     }
 
 }

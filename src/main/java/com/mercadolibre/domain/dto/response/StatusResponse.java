@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatusResponse {
-    @Schema(description = "HTTP response code", example = "200")
+    @Schema(description = "Código de respuesta HTTP", example = "200")
     private String statusCode;
 
-    @Schema(description = "Description of response code", example = "Solicitud procesada correctamente")
+    @Schema(description = "Descripción de codigo de respuesta", example = "Solicitud procesada correctamente")
     private String statusDescription;
 }

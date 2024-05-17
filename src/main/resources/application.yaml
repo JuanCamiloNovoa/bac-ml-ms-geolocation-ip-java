@@ -4,6 +4,12 @@ name:
 id:
   service: bac-ml-ms-geolocation-ip-java
 
+#Persistence Configuration
+service:
+  mongo:
+    name: geolocation
+    port: 27017
+
 #Params of Execution
 server:
   port: ${PORT:8090}
@@ -17,6 +23,9 @@ spring:
       base-path: /
   application:
   name: bac-ml-ms-geolocation-ip-java
+  data:
+    mongodb:
+      uri: mongodb://localhost:${service.mongo.port}/${service.mongo.name}
 
 #External API
 services:
@@ -34,8 +43,19 @@ services:
     time: 10
   timeout: 5000
 
+#Cache Logger
 logging:
   level:
     org:
       springframework:
         cache: TRACE
+
+#Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  model-converters:
+    enabled: true

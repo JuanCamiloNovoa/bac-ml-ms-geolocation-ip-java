@@ -21,4 +21,5 @@ public class GeoLocationDataResponse {
     private CurrencyServiceResponse moneda;
     private List<TimeServiceResponse> hora;
     private String distanciaEstimada;
+    private String bandera;
 }

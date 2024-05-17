@@ -16,4 +16,5 @@ public class ResponseCountryInformationDto implements Serializable {
     private Map<String, String> languages;
     private List<Double> latlng;
     private List<String> timezones;
+    private CountryFlag flags;
 }

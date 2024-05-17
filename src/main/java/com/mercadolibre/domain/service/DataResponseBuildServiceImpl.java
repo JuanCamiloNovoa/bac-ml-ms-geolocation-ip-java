@@ -43,6 +43,7 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
                         .build())
                 .hora(times)
                 .distanciaEstimada(buildDistanceString(distance, countryInfo))
+                .bandera(countryInfo.getFlags().getSvg())
                 .build();
     }
 

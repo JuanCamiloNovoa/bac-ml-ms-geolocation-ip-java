@@ -3,6 +3,7 @@ package com.mercadolibre.domain.service;
 import com.mercadolibre.domain.FinancialService;
 import com.mercadolibre.integration.dto.country.CountryCurrency;
 import com.mercadolibre.integration.dto.currency.ResponseCurrencyInformationDto;
+import com.mercadolibre.util.api.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -25,6 +26,6 @@ public class FinancialServiceImpl implements FinancialService {
         if(Objects.isNull(currencyInformationDto) || Objects.isNull(currencyInformationDto.getConversionRates()) || currencyInformationDto.getConversionRates().isEmpty()){
             return EMPTY_CURRENCY_INFORMATION;
         }
-        return currencyInformationDto.getConversionRates().get(CURRENCY_CONVERSION_RATE).toString();
+        return NumberUtils.formatDecimal(currencyInformationDto.getConversionRates().get(CURRENCY_CONVERSION_RATE));
     }
 }
