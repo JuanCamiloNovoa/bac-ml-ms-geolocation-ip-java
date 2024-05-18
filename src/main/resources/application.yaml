@@ -19,8 +19,8 @@ spring:
   thymeleaf:
     mode: HTML
     cache: false
-    webflux:
-      base-path: /
+    prefix: classpath:/templates/
+    suffix: .html
   application:
   name: bac-ml-ms-geolocation-ip-java
   data:
