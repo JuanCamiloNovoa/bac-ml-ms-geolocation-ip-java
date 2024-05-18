@@ -65,11 +65,11 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         return Statistics.builder()
                 .statusResponse(DataResponseMapper.buildSuccessfulStatusResponse())
-                .maxDistance(maxDistance)
-                .minDistance(minDistance)
-                .averageDistance(NumberUtils.formatDecimal(averageDistance))
-                .maxDistanceCountry(maxDistanceCountry)
-                .minDistanceCountry(minDistanceCountry)
+                .distanciaMaxima(maxDistance)
+                .distanciaMinima(minDistance)
+                .distanciaPromedio(NumberUtils.formatDecimal(averageDistance))
+                .paisDistanciaMaxima(maxDistanceCountry)
+                .paisDistanciaMinima(minDistanceCountry)
                 .build();
     }
 }

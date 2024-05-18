@@ -7,9 +7,9 @@ import lombok.Builder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record Statistics(
         StatusResponse statusResponse,
-        long maxDistance,
-        long minDistance,
-        String averageDistance,
-        String maxDistanceCountry,
-        String minDistanceCountry
+        long distanciaMaxima,
+        long distanciaMinima,
+        String distanciaPromedio,
+        String paisDistanciaMaxima,
+        String paisDistanciaMinima
 ) {}
