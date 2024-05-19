@@ -98,12 +98,18 @@ GET /mercadolibre/geolocation/ip/statistics
 GET http://localhost:8090/mercadolibre/geolocation/ip/home
 ```
 - Devuelve la página de inicio.
-![Home Page](resources/images/home.png)
+<p>
+    <img src="src/main/resources/images/home.png" alt="Home Page" width="400"/>
+</p>
+
 ```http
 GET http://localhost:8090/mercadolibre/geolocation/ip/results?ip={ip}
 ```
 - Muestra los resultados de la consulta de geolocalización para la IP proporcionada.
-![Result Page](resources/images/result.png)
+<p>
+<img src="src/main/resources/images/result.png" alt="Results Page" width="400"/>
+</p>
+
 
 ### APIs Públicas Consumidas
 
@@ -210,4 +216,4 @@ http://localhost:8090/mercadolibre/geolocation/ip/webjars/swagger-ui/index.html/
 
 Puedes descargar la colección de Postman desde el siguiente enlace:
 
-[Descargar colección de Postman](resources/postman/geolocation-ip-service.postman_collection.json)
+[Descargar colección de Postman](src/main/resources/postman/geolocation-ip-service.postman_collection.json)
