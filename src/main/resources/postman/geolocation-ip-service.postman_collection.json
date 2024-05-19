@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "49642866-b368-4128-92a3-ab6cfdb313e2",
+		"name": "Prueba técnica MercadoLibre",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34984977"
+	},
+	"item": [
+		{
+			"name": "Api Externa",
+			"item": [
+				{
+					"name": "API-Externa (Informacion pais)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://restcountries.com/v3.1/name/Spain",
+							"protocol": "https",
+							"host": [
+								"restcountries",
+								"com"
+							],
+							"path": [
+								"v3.1",
+								"name",
+								"Spain"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API-Externa (Informacion moneda)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/580b532bd065fbbc41f98e13/latest/EUR",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"580b532bd065fbbc41f98e13",
+								"latest",
+								"EUR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API-Externa (Informacion IP)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ip-api.com/json/83.44.196.93",
+							"protocol": "http",
+							"host": [
+								"ip-api",
+								"com"
+							],
+							"path": [
+								"json",
+								"83.44.196.93"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Servicio",
+			"item": [
+				{
+					"name": "API Informacion Gelocalizacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8090/mercadolibre/geolocation/ip/api/info?ip=186.86.32.39",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"mercadolibre",
+								"geolocation",
+								"ip",
+								"api",
+								"info"
+							],
+							"query": [
+								{
+									"key": "ip",
+									"value": "186.86.32.39"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Estadisticas Consumo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8090/mercadolibre/geolocation/ip/api/statistics",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"mercadolibre",
+								"geolocation",
+								"ip",
+								"api",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

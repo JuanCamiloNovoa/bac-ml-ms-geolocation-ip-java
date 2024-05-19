@@ -7,7 +7,6 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -20,13 +19,22 @@ import javax.net.ssl.SSLException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-@Log4j2
+/**
+ * Clase de configuración para crear y configurar el bean WebClient.
+ * Esta clase proporciona un cliente HTTP reactivo con configuración SSL y de tiempo de espera.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class WebClientConfig {
 
     private final ConfigVariable configVariable;
 
+    /**
+     * Crea y configura un bean WebClient con soporte SSL y configuración de tiempos de espera.
+     *
+     * @return una instancia configurada de WebClient
+     * @throws SSLException si ocurre un error al configurar el contexto SSL
+     */
     @Bean
     public WebClient webClient() throws SSLException {
         SslContext sslContext = SslContextBuilder
