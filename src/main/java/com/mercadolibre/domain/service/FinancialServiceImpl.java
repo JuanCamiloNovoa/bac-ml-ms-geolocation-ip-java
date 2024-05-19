@@ -12,18 +12,27 @@ import java.util.Objects;
 import static com.mercadolibre.util.constants.Constants.CURRENCY_CONVERSION_RATE;
 import static com.mercadolibre.util.constants.Constants.EMPTY_CURRENCY_INFORMATION;
 
+/**
+ * Implementación del servicio financiero que proporciona información sobre la moneda y las tasas de conversión.
+ */
 @Service
 public class FinancialServiceImpl implements FinancialService {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getCountryCurrency(Map<String, CountryCurrency> currencyMap){
-        Map.Entry<String,CountryCurrency> entry = currencyMap.entrySet().iterator().next();
+    public String getCountryCurrency(Map<String, CountryCurrency> currencyMap) {
+        Map.Entry<String, CountryCurrency> entry = currencyMap.entrySet().iterator().next();
         return entry.getKey();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getUsdConversionRate(ResponseCurrencyInformationDto currencyInformationDto) {
-        if(Objects.isNull(currencyInformationDto) || Objects.isNull(currencyInformationDto.getConversionRates()) || currencyInformationDto.getConversionRates().isEmpty()){
+        if (Objects.isNull(currencyInformationDto) || Objects.isNull(currencyInformationDto.getConversionRates()) || currencyInformationDto.getConversionRates().isEmpty()) {
             return EMPTY_CURRENCY_INFORMATION;
         }
         return NumberUtils.formatDecimal(currencyInformationDto.getConversionRates().get(CURRENCY_CONVERSION_RATE));

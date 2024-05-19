@@ -72,7 +72,7 @@ public class GeoLocationIpController {
                     @Content(examples = {
                             @ExampleObject(name = "La información se consulta correctamente",
                                     summary = "Petición exitosa",
-                                    value = "{\"status\":{\"statusCode\":\"200\",\"statusDescription\": \"Solicitud procesada correctamente\"},\"maxDistance\": 18750, \"minDistance\": 4308,\"averageDistance\": \"14826\",\"maxDistanceCountry\": \"China\",\"minDistanceCountry\": \"Colombia\""
+                                    value = "{\"status\":{\"statusCode\":\"200\",\"statusDescription\": \"Solicitud procesada correctamente\"},\"maxDistance\": 18750, \"minDistance\": 4308,\"averageDistance\": \"14826\",\"maxDistanceCountry\": \"China\",\"minDistanceCountry\": \"Colombia\"}"
                             )
                     }, schema = @Schema(implementation = DataServiceResponse.class), mediaType = "application/json")
             }, description = "Respuesta Exitosa"),

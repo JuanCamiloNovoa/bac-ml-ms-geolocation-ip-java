@@ -15,6 +15,9 @@ import java.time.Duration;
 
 import static com.mercadolibre.util.constants.Constants.*;
 
+/**
+ * Implementación del servicio para consultar información de una IP.
+ */
 @Service
 @RequiredArgsConstructor
 public class ConsultIpApiServiceImpl implements ConsultIpApiService {
@@ -22,6 +25,9 @@ public class ConsultIpApiServiceImpl implements ConsultIpApiService {
     private final WebClient webClient;
     private final ConfigVariable configVariable;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Cacheable(value = "ipInfoCache", key = "#ip")
     public Mono<ResponseIpInformationDto> getIpInformation(String ip) {

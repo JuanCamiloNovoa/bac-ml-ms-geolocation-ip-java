@@ -50,6 +50,7 @@ public class Constants {
     // Language files
     public static final String LANGUAGE_CODES_FILE= "language-codes.properties";
     public static final String LANGUAGE_NAMES_FILE= "language-names.properties";
+    public static final String COUNTRY_NAMES_FILE = "country-names.properties";
     public static final String FILE_NOT_FOUND = "No se pudo encontrar el archivo: %s";
     public static final String LOAD_MAP_FAILED = "Error al cargar contenido del archivo: %s";
 

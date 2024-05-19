@@ -17,8 +17,7 @@ class ThymeleafControllerTest {
 
     @Test
     void index() {
-        Model model = mock(Model.class);
-        String viewName = thymeleafController.index(model);
+        String viewName = thymeleafController.index();
         assertEquals("index", viewName);
     }
 

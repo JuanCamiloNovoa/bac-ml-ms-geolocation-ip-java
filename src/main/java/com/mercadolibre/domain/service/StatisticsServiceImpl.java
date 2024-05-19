@@ -13,12 +13,18 @@ import reactor.util.function.Tuple4;
 
 import java.util.Optional;
 
-
+/**
+ * Implementacion de servicio que gestiona las estadísticas de consumo del servicio.
+ */
 @Service
 @RequiredArgsConstructor
 public class StatisticsServiceImpl implements StatisticsService {
+
     private final StatisticsRepository statisticsRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<Void> updateStatistics(String country, long distance) {
         return statisticsRepository.findByCountry(country)
@@ -27,11 +33,24 @@ public class StatisticsServiceImpl implements StatisticsService {
                 .then();
     }
 
+    /**
+     * Actualiza las estadísticas existentes.
+     *
+     * @param existingEntity entidad de estadísticas existente.
+     * @return entidad de estadísticas actualizada.
+     */
     private Mono<StatisticsEntity> updateExistingStatistics(StatisticsEntity existingEntity) {
         existingEntity.incrementInvocations();
         return statisticsRepository.save(existingEntity);
     }
 
+    /**
+     * Crea la enitdad estadísticas para un país dado.
+     *
+     * @param country   nombre del país.
+     * @param distance distancia desde Buenos Aires al pais.
+     * @return nueva entidad de estadísticas.
+     */
     private Mono<StatisticsEntity> createNewStatistics(String country, long distance) {
         StatisticsEntity newEntity = StatisticsEntity.builder()
                 .country(country)
@@ -41,6 +60,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         return statisticsRepository.save(newEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<Statistics> getStatistics() {
         return Mono.zip(
@@ -51,6 +73,12 @@ public class StatisticsServiceImpl implements StatisticsService {
         ).map(this::mapToStatistics);
     }
 
+    /**
+     * Mapea los resultados obtenidos a un objeto Statistics.
+     *
+     * @param tuple una tupla que contiene las invocaciones totales, la distancia total, y las entidades con la distancia máxima y mínima.
+     * @return objeto Statistics con los datos mapeados.
+     */
     private Statistics mapToStatistics(Tuple4<Long, Long, StatisticsEntity, StatisticsEntity> tuple) {
         long totalInvocations = Optional.of(tuple.getT1()).orElse(0L);
         long totalDistance = Optional.of(tuple.getT2()).orElse(0L);

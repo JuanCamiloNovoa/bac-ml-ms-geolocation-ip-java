@@ -19,6 +19,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+/**
+ * Implementación del servicio de geolocalización por IP.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +34,10 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
     private final FinancialService financialService;
     private final StatisticsService statisticsService;
     private final TranslationService translationService;
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<ResponseEntity<DataServiceResponse>> getInformation(String ip) {
         return consultIpApiService.getIpInformation(ip)
@@ -44,21 +51,50 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
                         }));
     }
 
+    /**
+     * Obtiene la información del país para una IP dada.
+     *
+     * @param ipInfo información de la IP.
+     * @return información del país.
+     */
     private Mono<ResponseCountryInformationDto> getCountryInformation(ResponseIpInformationDto ipInfo) {
         String countryName = ipInfo.getCountry();
         return consultCountryApiService.getCountryInformation(countryName);
     }
 
+    /**
+     * Obtiene la información de la moneda para un país dado.
+     *
+     * @param countryInfo información del país.
+     * @return información de la moneda.
+     */
     private Mono<ResponseCurrencyInformationDto> getCurrencyInformation(ResponseCountryInformationDto countryInfo) {
         String currencyCode = financialService.getCountryCurrency(countryInfo.getCurrencies());
         return consultCurrencyApiService.getCurrencyInformation(currencyCode);
     }
 
+    /**
+     * Obtiene la información de las zonas horarias  y horas para un país dado.
+     *
+     * @param countryInfo información del país.
+     * @return lista de las zonas horarias y su hora correspondiente.
+     */
     private Mono<List<TimeServiceResponse>> getTimeInformation(ResponseCountryInformationDto countryInfo) {
         List<String> timezones = countryInfo.getTimezones();
         return ApiUtils.getCurrentTimeForTimezones(timezones).collectList();
     }
 
+    /**
+     * Construye la respuesta de geolocalización.
+     *
+     * @param ip dirección IP.
+     * @param ipInfo información de la IP.
+     * @param countryInfo información del país.
+     * @param currencyInfo información de la moneda.
+     * @param times lista de zonas horarias.
+     * @param distance distancia estimada a Buenos Aires.
+     * @return urespuesta de geolocalización.
+     */
     private Mono<ResponseEntity<DataServiceResponse>> buildResponse(String ip,
                                                                     ResponseIpInformationDto ipInfo,
                                                                     ResponseCountryInformationDto countryInfo,
@@ -71,11 +107,18 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
                 .build()));
     }
 
+    /**
+     * Actualiza/Crea las estadísticas de consumo del servicio.
+     *
+     * @param ipInfo información de la IP.
+     * @param distance distancia estimada.
+     * @param response respuesta de geolocalización.
+     * @return respuesta de geolocalización.
+     */
     private Mono<ResponseEntity<DataServiceResponse>> updateStatisticsAndReturnResponse(ResponseIpInformationDto ipInfo,
                                                                                         long distance,
                                                                                         ResponseEntity<DataServiceResponse> response) {
         return statisticsService.updateStatistics(translationService.translateCountry(ipInfo.getCountry()), distance)
                 .thenReturn(response);
     }
-
 }

@@ -12,10 +12,19 @@ import reactor.core.publisher.Mono;
 
 import static com.mercadolibre.util.constants.Constants.ERROR_RESPONSE;
 
+/**
+ * Controlador para manejar excepciones en toda la aplicación.
+ * Proporciona métodos para manejar diferentes tipos de excepciones y devolver respuestas adecuadas.
+ */
 @ControllerAdvice
 public class GeoLocationIpControllerAdvice {
 
-
+    /**
+     * Maneja excepciones de tipo BusinessException.
+     *
+     * @param businessException la excepción lanzada
+     * @return una respuesta con el código de estado y mensaje de error apropiado
+     */
     @ExceptionHandler(BusinessException.class)
     public Mono<ResponseEntity<DataServiceResponse>> handleBusinessException(BusinessException businessException) {
         HttpStatus status = determineHttpStatus(businessException.getHttpStatus(), businessException.getCode());
@@ -24,6 +33,12 @@ public class GeoLocationIpControllerAdvice {
         return Mono.just(new ResponseEntity<>(response, status));
     }
 
+    /**
+     * Maneja excepciones de tipo ApiException.
+     *
+     * @param apiException la excepción lanzada
+     * @return una respuesta con el código de estado y mensaje de error apropiado
+     */
     @ExceptionHandler(ApiException.class)
     public Mono<ResponseEntity<DataServiceResponse>> handleApiException(ApiException apiException) {
         HttpStatus status = determineHttpStatus(null, apiException.getCode());
@@ -32,6 +47,12 @@ public class GeoLocationIpControllerAdvice {
         return Mono.just(new ResponseEntity<>(response, status));
     }
 
+    /**
+     * Maneja excepciones genéricas.
+     *
+     * @param exception la excepción lanzada
+     * @return una respuesta con el código de estado y mensaje de error interno del servidor
+     */
     @ExceptionHandler(Exception.class)
     public Mono<ResponseEntity<DataServiceResponse>> handleGeneralException(Exception exception) {
         DataServiceResponse response = DataResponseMapper.buildDataResponseErrorObject(
@@ -39,6 +60,13 @@ public class GeoLocationIpControllerAdvice {
         return Mono.just(new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
+    /**
+     * Determina el código de estado HTTP adecuado a partir del código proporcionado o un código predeterminado.
+     *
+     * @param providedStatus el código de estado proporcionado
+     * @param statusCode el código de estado en formato String
+     * @return el código de estado HTTP adecuado
+     */
     private HttpStatus determineHttpStatus(HttpStatus providedStatus, String statusCode) {
         if (providedStatus != null) {
             return providedStatus;

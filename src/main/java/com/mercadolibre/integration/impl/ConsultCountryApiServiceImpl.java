@@ -15,6 +15,9 @@ import java.time.Duration;
 
 import static com.mercadolibre.util.constants.Constants.*;
 
+/**
+ * Implementación del servicio para consultar información de un país basado en su nombre.
+ */
 @Service
 @RequiredArgsConstructor
 public class ConsultCountryApiServiceImpl implements ConsultCountryApiService {
@@ -22,6 +25,9 @@ public class ConsultCountryApiServiceImpl implements ConsultCountryApiService {
     private final WebClient webClient;
     private final ConfigVariable configVariable;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Cacheable(value = "countryInfoCache", key = "#countryName")
     public Mono<ResponseCountryInformationDto> getCountryInformation(String countryName) {
@@ -39,7 +45,7 @@ public class ConsultCountryApiServiceImpl implements ConsultCountryApiService {
                         return Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,
                                 String.format(ERROR_GETTING_INFORMATION, NAME_CONSULT_COUNTRY_API, "No country information found")));
                     }
-                    return Mono.just(list.getFirst());
+                    return Mono.just(list.get(0));
                 })
                 .timeout(Duration.ofMillis(configVariable.getTimeoutConfig()))
                 .onErrorResume(Exception.class, exception -> Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,

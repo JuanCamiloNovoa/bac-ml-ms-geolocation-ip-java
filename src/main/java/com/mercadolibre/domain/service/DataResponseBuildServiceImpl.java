@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mercadolibre.util.constants.Constants.*;
+
+/**
+ * Implementación del servicio que construye las respuestas de geolocalización basadas en la información proporcionada.
+ */
 @Service
 @RequiredArgsConstructor
 public class DataResponseBuildServiceImpl implements DataResponseBuildService {
@@ -24,6 +28,9 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
     private final FinancialService financialService;
     private final TranslationService translationService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GeoLocationDataResponse buildGeoLocationResponse(String ip,
                                                             ResponseIpInformationDto ipInfo,
@@ -47,6 +54,13 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
                 .build();
     }
 
+    /**
+     * Construye una cadena que describe la distancia de Buenos Aires al país.
+     *
+     * @param distance    distancia calculada.
+     * @param countryInfo información del país.
+     * @return cadena de distancia formateada.
+     */
     private String buildDistanceString(long distance, ResponseCountryInformationDto countryInfo) {
         return String.format(
                 DISTANCE_INFORMATION,
@@ -58,6 +72,12 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
         );
     }
 
+    /**
+     * Construye una cadena con la traducción del nombre del pais.
+     *
+     * @param country nombre del país.
+     * @return cadena de país formateada.
+     */
     private String buildCountryString(String country) {
         return String.format(
                 COUNTRY_INFORMATION,
@@ -66,7 +86,13 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
         );
     }
 
-    private Map<String,String> buildLanguageMap(Map<String,String> languages){
+    /**
+     * Construye un mapa de idiomas traducidos.
+     *
+     * @param languages mapa original de idiomas.
+     * @return mapa de idiomas traducidos.
+     */
+    private Map<String, String> buildLanguageMap(Map<String, String> languages) {
         return translationService.translateLanguages(languages);
     }
 }
