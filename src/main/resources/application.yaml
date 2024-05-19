@@ -4,11 +4,6 @@ name:
 id:
   service: bac-ml-ms-geolocation-ip-java
 
-#Persistence Configuration
-service:
-  mongo:
-    name: geolocation
-    port: 27017
 
 #Params of Execution
 server:
@@ -25,7 +20,7 @@ spring:
   name: bac-ml-ms-geolocation-ip-java
   data:
     mongodb:
-      uri: mongodb://localhost:${service.mongo.port}/${service.mongo.name}
+      uri: ${SPRING_DATA_MONGODB_URI}
 
 #External API
 services:
