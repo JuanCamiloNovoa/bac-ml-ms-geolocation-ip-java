@@ -98,7 +98,7 @@ GET /mercadolibre/geolocation/ip/statistics
 GET http://localhost:8090/mercadolibre/geolocation/ip/home
 ```
 - Devuelve la página de inicio.
-<p>
+<p align="center">
     <img src="src/main/resources/images/home.png" alt="Home Page" width="400"/>
 </p>
 
@@ -106,7 +106,7 @@ GET http://localhost:8090/mercadolibre/geolocation/ip/home
 GET http://localhost:8090/mercadolibre/geolocation/ip/results?ip={ip}
 ```
 - Muestra los resultados de la consulta de geolocalización para la IP proporcionada.
-<p>
+<p align="center">
 <img src="src/main/resources/images/result.png" alt="Results Page" width="400"/>
 </p>
 
