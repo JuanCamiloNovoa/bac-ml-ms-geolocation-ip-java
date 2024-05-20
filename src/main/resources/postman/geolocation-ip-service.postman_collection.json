@@ -15,16 +15,28 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://restcountries.com/v3.1/name/Spain",
+							"raw": "https://api.countrylayer.com/v2/name/Colombia?access_key=87a74d5733b70419faefd297cbe1fcd3",
 							"protocol": "https",
 							"host": [
-								"restcountries",
+								"api",
+								"countrylayer",
 								"com"
 							],
 							"path": [
-								"v3.1",
+								"v2",
 								"name",
-								"Spain"
+								"Colombia"
+							],
+							"query": [
+								{
+									"key": "fullText",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "access_key",
+									"value": "87a74d5733b70419faefd297cbe1fcd3"
+								}
 							]
 						}
 					},
@@ -84,7 +96,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8090/mercadolibre/geolocation/ip/api/info?ip=186.86.32.39",
+							"raw": "localhost:8090/mercadolibre/geolocation/ip/api/info?ip=83.44.196.93",
 							"host": [
 								"localhost"
 							],
@@ -99,7 +111,7 @@
 							"query": [
 								{
 									"key": "ip",
-									"value": "186.86.32.39"
+									"value": "83.44.196.93"
 								}
 							]
 						}

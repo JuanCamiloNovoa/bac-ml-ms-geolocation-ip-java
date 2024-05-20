@@ -43,7 +43,7 @@ public class WebClientConfig {
                 .build();
 
         HttpClient httpClient = HttpClient.create()
-                .secure(t -> t.sslContext(sslContext))
+                .secure(t -> t.sslContext(sslContext).handshakeTimeout(Duration.ofMillis(configVariable.getTimeoutConfig())))
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, (int) configVariable.getTimeoutConfig())
                 .disableRetry(false)
                 .responseTimeout(Duration.ofMillis((int) configVariable.getTimeoutConfig()))

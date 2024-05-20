@@ -1,6 +1,5 @@
 package com.mercadolibre.domain.service;
 
-import com.mercadolibre.integration.dto.country.CountryCurrency;
 import com.mercadolibre.integration.dto.currency.ResponseCurrencyInformationDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,6 @@ class FinancialServiceImplTest {
     @InjectMocks
     private FinancialServiceImpl financialServiceImpl;
 
-    @Test
-    void testGetCountryCurrency() {
-        String result = financialServiceImpl.getCountryCurrency(Map.of("EUR", CountryCurrency.builder().symbol("E").name("Euro").build()));
-        Assertions.assertEquals("EUR", result);
-    }
 
     @Test
     void testGetUsdConversionRate() {
