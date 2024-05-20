@@ -39,6 +39,12 @@ public class ConfigVariable {
     private String consultCountryUrl;
 
     /**
+     * Api Key para poder consumir el api publica de consulta pais.
+     */
+    @Value("${services.consult-country.access-key}")
+    private String consultCountryAccessKey;
+
+    /**
      * URL del host para el servicio de consulta de moneda.
      */
     @Value("${services.consult-currency.host}")

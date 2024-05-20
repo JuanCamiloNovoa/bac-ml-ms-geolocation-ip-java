@@ -3,7 +3,6 @@ package com.mercadolibre.integration.dto.country;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -17,8 +16,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CountryCurrency implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+    @Schema(description = "Codigo de la moneda", example = "EUR")
+    private String code;
 
     @Schema(description = "Nombre de la moneda", example = "Euro")
     private String name;

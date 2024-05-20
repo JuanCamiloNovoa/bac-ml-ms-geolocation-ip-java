@@ -1,6 +1,9 @@
 package com.mercadolibre.domain.service;
 
-import com.mercadolibre.domain.*;
+import com.mercadolibre.domain.DataResponseBuildService;
+import com.mercadolibre.domain.GeoLocationIpService;
+import com.mercadolibre.domain.StatisticsService;
+import com.mercadolibre.domain.TranslationService;
 import com.mercadolibre.domain.dto.response.DataServiceResponse;
 import com.mercadolibre.domain.dto.response.TimeServiceResponse;
 import com.mercadolibre.integration.ConsultCountryApiService;
@@ -31,7 +34,6 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
     private final ConsultCountryApiService consultCountryApiService;
     private final ConsultCurrencyApiService consultCurrencyApiService;
     private final DataResponseBuildService dataResponseBuildService;
-    private final FinancialService financialService;
     private final StatisticsService statisticsService;
     private final TranslationService translationService;
 
@@ -69,7 +71,7 @@ public class GeoLocationIpServiceImpl implements GeoLocationIpService {
      * @return información de la moneda.
      */
     private Mono<ResponseCurrencyInformationDto> getCurrencyInformation(ResponseCountryInformationDto countryInfo) {
-        String currencyCode = financialService.getCountryCurrency(countryInfo.getCurrencies());
+        String currencyCode = countryInfo.getCurrencies().getFirst().getCode();
         return consultCurrencyApiService.getCurrencyInformation(currencyCode);
     }
 

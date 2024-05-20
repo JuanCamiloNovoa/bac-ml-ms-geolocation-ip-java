@@ -29,7 +29,6 @@ class DataResponseBuildServiceImplTest {
 
     @Test
     void testBuildGeoLocationResponse() {
-        when(financialService.getCountryCurrency(anyMap())).thenReturn("EUR");
         when(financialService.getUsdConversionRate(any())).thenReturn("1.08");
         when(translationService.translateLanguages(anyMap())).thenReturn(Map.of("es", "Español"));
         when(translationService.translateCountry(anyString())).thenReturn("España");

@@ -29,6 +29,7 @@ class ConsultCountryApiServiceImplTest {
         configVariable = new ConfigVariable();
         ReflectionTestUtils.setField(configVariable, "consultCountryHost", "https://api-test.com");
         ReflectionTestUtils.setField(configVariable, "consultCountryUrl", "/prueba");
+        ReflectionTestUtils.setField(configVariable, "consultCountryAccessKey", "123123");
         ReflectionTestUtils.setField(configVariable, "timeoutConfig", 50000L);
         consultCountryApiServiceImpl = new ConsultCountryApiServiceImpl(webClient, configVariable);
     }

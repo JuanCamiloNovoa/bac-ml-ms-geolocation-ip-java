@@ -58,7 +58,6 @@ class GeoLocationIpServiceImplTest {
         when(consultCountryApiService.getCountryInformation(anyString())).thenReturn(Mono.just(countryInfo));
         when(consultCurrencyApiService.getCurrencyInformation(anyString())).thenReturn(Mono.just(currencyInfo));
         when(dataResponseBuildService.buildGeoLocationResponse(anyString(), any(), any(), any(), any(), anyLong())).thenReturn(geoLocationResponse);
-        when(financialService.getCountryCurrency(any())).thenReturn("EUR");
         when(translationService.translateCountry(anyString())).thenReturn("España");
         when(statisticsService.updateStatistics(anyString(), anyLong())).thenReturn(Mono.empty());
 
@@ -73,7 +72,6 @@ class GeoLocationIpServiceImplTest {
         verify(consultCountryApiService).getCountryInformation(anyString());
         verify(consultCurrencyApiService).getCurrencyInformation(anyString());
         verify(dataResponseBuildService).buildGeoLocationResponse(anyString(), any(), any(), any(), any(), anyLong());
-        verify(financialService).getCountryCurrency(any());
         verify(translationService).translateCountry(anyString());
         verify(statisticsService).updateStatistics(anyString(), anyLong());
     }
