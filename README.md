@@ -27,6 +27,7 @@ Microservicio de geolocalización expuesto mediante una petición GET. Al llamar
 - **Caffeine Cache**: Mecanismo de caché de alto rendimiento.
 - **Thymeleaf**: Motor de plantillas para generar vistas HTML.
 - **Swagger**: Documentación interactiva de la API.
+- **JUnit 5 / Mockito**: Pruebas unitarias.
 
 ### Endpoints
 
