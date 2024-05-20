@@ -211,8 +211,10 @@ volumes:
 
 Accede a la documentación de la API generada con Swagger en la siguiente URL una vez el servicio esté en ejecución:
 ```
-http://localhost:8090/mercadolibre/geolocation/ip/webjars/swagger-ui/index.html/
+http://localhost:8090/mercadolibre/geolocation/ip/webjars/swagger-ui/index.html#/
 ```
+O accede al recurso [Ver Swagger](src/main/resources/swagger/swagger.yaml)
+
 ### Colección de Postman
 
 Puedes descargar la colección de Postman desde el siguiente enlace:
