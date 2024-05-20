@@ -1,0 +1,222 @@
+openapi: 3.0.1
+info:
+  title: Geolocalización - Mercadolibre
+  description: Servicio que dada una IP obtiene la información asociada y sus estadisticas de consumo
+  version: '1.0'
+servers:
+  - url: http://localhost:8090/mercadolibre/geolocation/ip
+    description: Generated server url
+tags:
+  - name: Geolocalización de  IP
+    description: Endpoints para acceder a la información del servicio
+paths:
+  /api/statistics:
+    get:
+      tags:
+        - Geolocalización de  IP
+      summary: Obtener estadísticas de geolocalización
+      operationId: getStatistics
+      responses:
+        '200':
+          description: Respuesta Exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataServiceResponse'
+              examples:
+                La información se consulta correctamente:
+                  summary: Petición exitosa
+                  description: La información se consulta correctamente
+                  value:
+                    status:
+                      statusCode: '200'
+                      statusDescription: Solicitud procesada correctamente
+                    maxDistance: 18750
+                    minDistance: 4308
+                    averageDistance: '14826'
+                    maxDistanceCountry: China
+                    minDistanceCountry: Colombia
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataServiceResponse'
+              examples:
+                Error interno del servidor:
+                  summary: Error en el servicio
+                  description: Error interno del servidor
+                  value:
+                    status:
+                      statusCode: '500'
+                      statusDescription: Error al obtener la información de la IP. Por favor inténtelo nuevamente
+  /api/info:
+    get:
+      tags:
+        - Geolocalización de  IP
+      summary: Obtener información de geolocalización de una IP
+      operationId: getGeoLocalizationInfo
+      parameters:
+        - name: ip
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Respuesta Exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataServiceResponse'
+              examples:
+                La información se consulta correctamente:
+                  summary: Petición exitosa
+                  description: La información se consulta correctamente
+                  value:
+                    status:
+                      statusCode: '200'
+                      statusDescription: Solicitud procesada correctamente
+                    data:
+                      ip: 36.112.0.0
+                      fechaActual: 17/05/2024 17:16:52
+                      pais: China (China)
+                      isoCode: CN
+                      idiomas:
+                        zh: Chino
+                      moneda:
+                        codigo: TWD
+                        cotizacionDolar: '0.0311'
+                      hora:
+                        - valor: '06:16:52'
+                          zonaHoraria: UTC+08:00
+                      distanciaEstimada: 18750 kms (-34.0,-64.0) a (23.5,121.0)
+                      bandera: https://flagcdn.com/tw.svg
+        '400':
+          description: El request no presenta los parámetros requeridos por la transacción
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataServiceResponse'
+              examples:
+                Petición inválida por parámetro:
+                  summary: La IP no es válida
+                  description: Petición inválida por parámetro
+                  value:
+                    status:
+                      statusCode: '400'
+                      statusDescription: The specified ip is not valid
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataServiceResponse'
+              examples:
+                Error interno del servidor:
+                  summary: Error en el servicio
+                  description: Error interno del servidor
+                  value:
+                    status:
+                      statusCode: '500'
+                      statusDescription: Error al obtener la información de la IP. Por favor inténtelo nuevamente
+components:
+  schemas:
+    CurrencyServiceResponse:
+      type: object
+      properties:
+        codigo:
+          type: string
+          description: Código de la moneda
+          example: EUR
+        cotizacionDolar:
+          type: string
+          description: Cotización moneda
+          example: '1.08'
+      description: Información de la moneda del país
+      example:
+        codigo: TWD
+        cotizacionDolar: '0.0311'
+    DataServiceResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusResponse'
+        data:
+          $ref: '#/components/schemas/GeoLocationDataResponse'
+    GeoLocationDataResponse:
+      type: object
+      properties:
+        ip:
+          type: string
+          description: Dirección ip del request
+          example: 1.1.1.1
+        fechaActual:
+          type: string
+          description: Fecha actual
+          example: 18/05/2024 19:14:14
+        pais:
+          type: string
+          description: País correspondiente a la IP
+          example: España
+        isoCode:
+          type: string
+          description: Código ISO del país
+          example: ESP
+        idiomas:
+          type: object
+          additionalProperties:
+            type: string
+            description: Idiomas oficiales del país
+            example: '"zh": "Chino"'
+          description: Idiomas oficiales del país
+          example: '"zh": "Chino"'
+        moneda:
+          $ref: '#/components/schemas/CurrencyServiceResponse'
+        hora:
+          type: array
+          description: Lista de zonas horarias y su respectivo valor en el país
+          example:
+            - valor: '08:14:14'
+              zonaHoraria: UTC+08:00
+          items:
+            $ref: '#/components/schemas/TimeServiceResponse'
+        distanciaEstimada:
+          type: string
+          description: Distancia estimada entre Buenos Aires y el país correspondiente a la IP
+          example: 18750 kms (-34.0,-64.0) a (23.5,121.0)
+        bandera:
+          type: string
+          description: URL de la bandera del país que usa el frontend
+          example: https://flagcdn.com/tw.svg
+      description: Datos de geolocalización de la respuesta
+    StatusResponse:
+      type: object
+      properties:
+        statusCode:
+          type: string
+          description: Código de respuesta HTTP
+          example: '200'
+        statusDescription:
+          type: string
+          description: Descripción del código de respuesta
+          example: Solicitud procesada correctamente
+      description: Respuesta general del servicio
+      example:
+        statusCode: '200'
+        statusDescription: Solicitud procesada correctamente
+    TimeServiceResponse:
+      type: object
+      properties:
+        valor:
+          type: string
+          description: Hora actual
+          example: '08:14:14'
+        zonaHoraria:
+          type: string
+          description: Zona horaria correspondiente al valor del tiempo
+          example: UTC+08:00
+      description: Lista de zonas horarias y su respectivo valor en el país
+      example:
+        - valor: '08:14:14'
+          zonaHoraria: UTC+08:00
