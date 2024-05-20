@@ -116,7 +116,7 @@ GET http://localhost:8090/mercadolibre/geolocation/ip/results?ip={ip}
 
 Este servicio consume las siguientes APIs públicas:
 
-- **[Rest Countries](https://restcountries.com)**: Para obtener información de los países.
+- **[Country Layer-API](https://countrylayer.com/)**: Para obtener información de los países.
 - **[IP-API](http://ip-api.com)**: Para obtener información de geolocalización basada en IP.
 - **[ExchangeRate-API](https://www.exchangerate-api.com)**: Para obtener tasas de cambio de moneda.
 

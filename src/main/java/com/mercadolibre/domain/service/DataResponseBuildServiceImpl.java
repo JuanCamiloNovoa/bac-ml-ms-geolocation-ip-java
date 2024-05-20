@@ -6,6 +6,7 @@ import com.mercadolibre.domain.TranslationService;
 import com.mercadolibre.domain.dto.response.CurrencyServiceResponse;
 import com.mercadolibre.domain.dto.response.GeoLocationDataResponse;
 import com.mercadolibre.domain.dto.response.TimeServiceResponse;
+import com.mercadolibre.integration.dto.country.LanguageInformation;
 import com.mercadolibre.integration.dto.country.ResponseCountryInformationDto;
 import com.mercadolibre.integration.dto.currency.ResponseCurrencyInformationDto;
 import com.mercadolibre.integration.dto.ip.ResponseIpInformationDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.mercadolibre.util.constants.Constants.*;
 
@@ -45,12 +47,12 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
                 .isoCode(ipInfo.getCountryCode())
                 .idiomas(buildLanguageMap(countryInfo.getLanguages()))
                 .moneda(CurrencyServiceResponse.builder()
-                        .codigo(financialService.getCountryCurrency(countryInfo.getCurrencies()))
+                        .codigo(countryInfo.getCurrencies().getFirst().getCode())
                         .cotizacionDolar(financialService.getUsdConversionRate(currencyInfo))
                         .build())
                 .hora(times)
                 .distanciaEstimada(buildDistanceString(distance, countryInfo))
-                .bandera(countryInfo.getFlags().getSvg())
+                .bandera(String.format("https://flagcdn.com/%s.svg", countryInfo.getAlpha2Code().toLowerCase()))
                 .build();
     }
 
@@ -92,7 +94,9 @@ public class DataResponseBuildServiceImpl implements DataResponseBuildService {
      * @param languages mapa original de idiomas.
      * @return mapa de idiomas traducidos.
      */
-    private Map<String, String> buildLanguageMap(Map<String, String> languages) {
-        return translationService.translateLanguages(languages);
+    private Map<String, String> buildLanguageMap(List<LanguageInformation> languages) {
+        Map<String, String> languageMap = languages.stream()
+                .collect(Collectors.toMap(LanguageInformation::getIso, LanguageInformation::getName));
+        return translationService.translateLanguages(languageMap);
     }
 }
