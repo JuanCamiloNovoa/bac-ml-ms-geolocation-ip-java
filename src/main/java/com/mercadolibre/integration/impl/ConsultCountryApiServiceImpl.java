@@ -33,7 +33,9 @@ public class ConsultCountryApiServiceImpl implements ConsultCountryApiService {
     public Mono<ResponseCountryInformationDto> getCountryInformation(String countryName) {
         return webClient
                 .get()
-                .uri(configVariable.getConsultCountryHost().concat(configVariable.getConsultCountryUrl()).concat(countryName))
+                .uri(configVariable.getConsultCountryHost().concat(configVariable.getConsultCountryUrl())
+                        .concat(countryName)
+                        .concat("?access_key=").concat(configVariable.getConsultCountryAccessKey()))
                 .retrieve()
                 .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals,
                         clientResponse -> Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,
@@ -45,7 +47,7 @@ public class ConsultCountryApiServiceImpl implements ConsultCountryApiService {
                         return Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,
                                 String.format(ERROR_GETTING_INFORMATION, NAME_CONSULT_COUNTRY_API, "No country information found")));
                     }
-                    return Mono.just(list.get(0));
+                    return Mono.just(list.getFirst());
                 })
                 .timeout(Duration.ofMillis(configVariable.getTimeoutConfig()))
                 .onErrorResume(Exception.class, exception -> Mono.error(new ApiException(INTERNAL_SERVER_ERROR_CODE, HttpStatus.INTERNAL_SERVER_ERROR,

@@ -20,13 +20,14 @@ spring:
   name: bac-ml-ms-geolocation-ip-java
   data:
     mongodb:
-      uri: ${SPRING_DATA_MONGODB_URI}
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/geolocation}
 
 #External API
 services:
   consult-country:
-    host: https://restcountries.com
-    url: /v3.1/name/
+    host: https://api.countrylayer.com
+    url: /v2/name/
+    access-key: 87a74d5733b70419faefd297cbe1fcd3
   consult-ip:
     host: http://ip-api.com
     url: /json/

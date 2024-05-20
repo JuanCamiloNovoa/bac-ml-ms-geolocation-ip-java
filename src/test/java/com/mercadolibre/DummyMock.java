@@ -2,7 +2,7 @@ package com.mercadolibre;
 
 import com.mercadolibre.domain.dto.response.*;
 import com.mercadolibre.integration.dto.country.CountryCurrency;
-import com.mercadolibre.integration.dto.country.CountryFlag;
+import com.mercadolibre.integration.dto.country.LanguageInformation;
 import com.mercadolibre.integration.dto.country.ResponseCountryInformationDto;
 import com.mercadolibre.integration.dto.currency.ResponseCurrencyInformationDto;
 import com.mercadolibre.integration.dto.ip.ResponseIpInformationDto;
@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,13 @@ public class DummyMock {
     }
 
     public static ResponseCountryInformationDto buildGetCountryInformation() {
+
         return ResponseCountryInformationDto.builder()
                 .latlng(List.of(40D, 30D))
-                .currencies(Map.of("EUR", CountryCurrency.builder().name("Euro").symbol("E").build()))
-                .flags(CountryFlag.builder().svg("https://flagcdn.com/es.svg").build())
-                .languages(Map.of("spa", "Spanish"))
+                .currencies(List.of(CountryCurrency.builder().name("peso").code("COP").symbol("$").build()))
+                .languages(List.of(LanguageInformation.builder().name("Spanish").iso("es").build()))
                 .timezones(List.of("UTC", "UTC+01:00"))
+                .alpha2Code("co")
                 .build();
     }
 
